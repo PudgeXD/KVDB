@@ -33,6 +33,7 @@ public:
 	需要判断pos的大小是否超过链表的长度*/
 	bool insert_before(Object* value, uint64_t pos);
 
+	//pop操作除了返回还需要删除该listNode，但不释放value的object
 	Object* lpop(Object* value);
 
 	Object* rpop(Object* value);

@@ -24,11 +24,11 @@ GETRANGE key start end
 INCRBY key amount
 DECRBY key amount
 ---------List-------------
-RPUSH key string
-LPUSH key string
-LINSERT key index
-RPOP key
-LPOP key
+RPUSH key string          ok
+LPUSH key String          ok
+LINSERT key index string  ok
+RPOP key                  ok
+LPOP key                  ok
 LSET key index string
 LLEN key
 LGET key index
