@@ -3,23 +3,24 @@
 
 struct HTNode {
 	//key must be String, no other types
-	Object* key;    
-	Object* value;
-	HTNode* pre;
-	HTNode* next;
+	Object* key_;    
+	Object* value_;
+	HTNode* pre_;
+	HTNode* next_;
 }
-class HashTable {
+
+class StringtHashTable {
+	//the type of object of the value must be string
 private:
 	uint64_t len_;
 	uint64_t used_;
 	HTNode** table_[2];
 	int64_t rehash_progress_;
-	bool is_dbHT_; 
-	//true时允许HTNode的value为HashTable类型的Object，反之不允许
+	bool is_dbHT_;
 public:
-	HashTable():len_(0),used_(0),table_(0){}
+	StringHashTable():len_(0),used_(0),table_(0){}
 
-	~HashTable(){} //delete all nodes in table 
+	~StringHashTable(){} //delete all nodes in table 
 
 	//malloc for table_, init len_,used_,rehash_progress_, is_dbHT_
 	//if is_dbHT_ is true, the initial len_ is bigger
@@ -29,54 +30,66 @@ public:
 		return used_;
 	}
 
+	double get_ratio(){
+		return (double)used_/len_;
+	}
+
 	uint64_t get_hash_value(Object* key);
 
 	//Murmurhash3哈希算法
 	uint64_t hash_function(Object* key);
-	
-	//if 
-	bool hset_int(Object* key,int64_t value) {
-		HTNode* node = get_ht_node(key);
-		if(node->key->type != 0) {
-			cout << "the type of key:" << key->ptr->c_str() << "isnot string" << endl;
-			return key_type_error(key);
-		}
 
-	}
-
-	bool key_type_error(Object* key) {
-		cout << "the type of key:" << key->ptr->c_str() << "isnot string" << endl;
-		return false;
-	}
-	bool hset_string(Object* key,Object* value) {
-		HTNode* node = get_ht_node(key);
-		if(node->key->type != 0) {
-			return key_type_error(key);
-		}
-	}
-
-	bool hset_list(Object* key, Object* values []);
-
-	bool hset_set(Object* key, int64_t elements[]);
-
-	bool hset_set(Object* key, Object* elements[]);
-
-	bool hset_ht(Object* key, SSpair KVpairs[]);
-
-	char** get_all_keys();
-
+	//需要考虑rehash的情况，如果rehash_progress_大于等于0，则
+	//先搜索table[1]，没有再搜索table[0]
 	HTNode* get_ht_node(Object* key);
 
-	Object* get_object(Object* key);
+	bool add(Object* key,Object* value);
 
-	bool update
+	bool remove(Object* key);
 
-	
+	bool remove(Object** key,uint64_t count);
 
-	bool rename_key(char* key);
+	//不存在直接报错
+	bool update_key(Object* old_key,Object* new_key);
 
-	bool rename_key(String* key);
-	
-	//destroy the key and the value no matter what type of it
-	void destroy(String* key);
+	//update时，若key不存在则调用add
+	bool update_value(Object* key,Object* new_value);
+
+	bool update_value_multi(ObjPair KVpairs[],count);
+
+	bool increase(Object* key,uint64_t inc);
+
+	bool decrease(Object* key,uint64_t dec);
+
+	bool exist(Object* key);
+
+	Object* get_value_obj(Object* key);
+
+	char* get_value_str(Object* key);
+
+	Object* get_value_multi_obj(Object** key,uint64_t count);
+
+	char* get_value_multi_str(Object** key,uint64_t count);
+
+	Object** get_all_keys_obj();
+
+	char** get_all_keys_str();
+
+	void release();
+}
+
+class NestHashTable : public StringHashTable {
+	//the type of object of the value can be STRING,SET,LIST,HT
+	//if the type is HT,the encoding must be STRINGHT
+public:
+	NestHashTable(){}
+	~NestHashTable(){}
+
+	//去调用对应key的value的Object里的方法
+	bool add_list(const char* key,)
+
+
+
+
+
 }

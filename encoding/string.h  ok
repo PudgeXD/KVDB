@@ -1,32 +1,12 @@
 #include <stdint.h>
+#include "Buffer.h"
 
-class String {  //重载+ - << >> =
-private:
-	uint64_t capacity_;
-	uint64_t used_;
-	char* content_;
+//string : public Buffer
+class String : public Buffer{  //重载+ - << >> =
 public:
-	String():capacity_(0),used_(0),content_(0){}
+	String(){}
 
-	~String(){
-		delete content_ [];
-	}
-
-	uint64_t get_capacity() {
-		return capacity_;
-	}
-
-	uint64_t get_used(){
-		return used_;
-	}
-
-	uint64_t get_len(){
-		return used_;
-	}
-
-	bool set();
-
-	bool set(char* input);
+	~String(){}
 
 	//Count the ASCII of all character of the string
 	int64_t to_int64();
@@ -45,11 +25,10 @@ public:
 
 	String ret_append(String* another, uint64_t pos);
 
+	//把字符串des的内容拷贝到本字符串
 	void copy(String* des);
 
 	String truncation(uint64_t begin, uint64_t end);
-
-	bool write(void* addr);
 
 	void print(uint32_t fp=1);
 }

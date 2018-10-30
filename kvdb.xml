@@ -1,0 +1,7 @@
+<object_int>0,9999</object_int>
+<db_count>16</db_count>
+<RDBsave>
+	save 900 1
+	save 300 10
+	save 60 10000
+</RDBsave>
